@@ -1,0 +1,54 @@
+/*!样式表文件头部*/
+$width:20px;   /*变量的声明*/
+$color:red;
+$color1:blue;
+$list:(margin,padding,border);   //声明列表类型变量
+.header
+{
+    width:$width;
+    height:(2*$width);
+    margin:$width;
+    font:    //属性嵌套
+    {
+        size:$width;
+    }
+    .content          //选择器嵌套
+    {
+        border:$width solid $color;
+    }
+    a{
+        color:$color1;
+        font-size:$width;
+        &:hover{    //伪类嵌套
+            color:$color;
+            background-color:$color1;
+        }
+    }
+}
+@mixin setValue($index,$value)      //使用@mixin定义带参数的混合宏
+{
+    @for $i from 1 through 3    //for循环，变量取值为1~3
+    {
+        .item-#{$i}  //插值
+        {
+            background-color:$index;
+            color:$color;
+            width:($value*$i);  //数值运算
+        }
+    }
+}
+div{
+    @include setValue(red,10px);  //使用@include调用混合宏,并传递参数
+}
+@each $var in $list   //@each循环遍历列表元素
+{
+  div{
+    #{$var}:$width;
+    @extend .footer;  //使用@extend实现继承
+  }
+}
+.footer   
+{
+  color:red;
+  width:$width;
+}
